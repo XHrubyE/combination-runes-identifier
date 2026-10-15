@@ -5,6 +5,8 @@ import java.awt.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetItem;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.FontManager;
@@ -22,13 +24,14 @@ public class CombinationRunesIdentifierOverlay extends WidgetItemOverlay {
     CombinationRunesIdentifierOverlay(CombinationRunesIdentifierConfig config, ItemManager itemManager) {
         this.config = config;
         this.itemManager = itemManager;
+
         showOnBank();
         showOnInventory();
     }
 
     @Override
     public void renderItemOverlay(final Graphics2D graphics, final int itemId, final WidgetItem widgetItem) {
-        if (!config.showOverlay()) {
+        if (!showOverlay(widgetItem)) {
             return;
         }
 
@@ -41,6 +44,29 @@ public class CombinationRunesIdentifierOverlay extends WidgetItemOverlay {
         drawLetters(graphics, widgetItem.getCanvasBounds(), rune);
     }
 
+    private boolean showOverlay(final WidgetItem widgetItem) {
+        if (!config.showOverlay()) {
+            return false;
+        }
+
+        if (!config.showInInventory() && isInventoryItem(widgetItem)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isInventoryItem(final WidgetItem widgetItem) {
+        Widget widget = widgetItem.getWidget();
+
+        if (widget == null) {
+            return false;
+        }
+
+        int groupId = widget.getId() >>> 16;
+        return groupId == InterfaceID.INVENTORY;
+    }
+
     private void drawLetters(Graphics2D graphics, Rectangle canvasBounds, CombinationRune rune) {
         graphics.setFont(FontManager.getRunescapeSmallFont());
         FontMetrics fontMetrics = graphics.getFontMetrics();
@@ -49,7 +75,7 @@ public class CombinationRunesIdentifierOverlay extends WidgetItemOverlay {
         String secondElementSymbol = rune.getSecondElement().getSymbol();
 
         int totalWidth = fontMetrics.stringWidth(firstElementSymbol + GAP + secondElementSymbol);
-        int x = canvasBounds.x + (canvasBounds.width - totalWidth) / 2;
+        int x = canvasBounds.x + ((canvasBounds.width - totalWidth) / 2) - 2;
         int y = canvasBounds.y + canvasBounds.height - 2;
 
         drawShadowed(graphics, firstElementSymbol, x, y, rune.getFirstElement().getColor());

@@ -7,9 +7,9 @@ import net.runelite.api.ItemID;
 
 public enum ElementalRune {
     AIR(ItemID.AIR_RUNE, "A", new Color(220, 240, 255)),
-    WATER(ItemID.WATER_RUNE, "W", new Color(60, 130, 255)),
-    EARTH(ItemID.EARTH_RUNE, "E", new Color(110, 170, 70)),
-    FIRE(ItemID.FIRE_RUNE, "F", new Color(255, 110, 30));
+    WATER(ItemID.WATER_RUNE, "W", new Color(25, 87, 245)),
+    EARTH(ItemID.EARTH_RUNE, "E", new Color(0, 129, 32)),
+    FIRE(ItemID.FIRE_RUNE, "F", new Color(212, 56, 3));
 
     @Getter
     private final int itemId;

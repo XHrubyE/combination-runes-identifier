@@ -15,10 +15,7 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
-@Slf4j
-@PluginDescriptor(
-        name = "Combination Runes Identifier"
-)
+@PluginDescriptor(name = "Combination Runes Identifier")
 public class CombinationRunesIdentifierPlugin extends Plugin {
 
     @Inject
