@@ -16,6 +16,9 @@ import net.runelite.client.ui.overlay.WidgetItemOverlay;
 public class CombinationRunesIdentifierOverlay extends WidgetItemOverlay {
 
     private final static String GAP = "     ";
+    private final static int COORDINATE_OFFSET_X = 2;
+    private final static int COORDINATE_OFFSET_Y = 2;
+    private static final int WIDGET_ID_COMPONENT_BITS = 16;
 
     private final CombinationRunesIdentifierConfig config;
     private final ItemManager itemManager;
@@ -63,7 +66,7 @@ public class CombinationRunesIdentifierOverlay extends WidgetItemOverlay {
             return false;
         }
 
-        int groupId = widget.getId() >>> 16;
+        int groupId = widget.getId() >>> WIDGET_ID_COMPONENT_BITS;
         return groupId == InterfaceID.INVENTORY;
     }
 
@@ -75,8 +78,8 @@ public class CombinationRunesIdentifierOverlay extends WidgetItemOverlay {
         String secondElementSymbol = rune.getSecondElement().getSymbol();
 
         int totalWidth = fontMetrics.stringWidth(firstElementSymbol + GAP + secondElementSymbol);
-        int x = canvasBounds.x + ((canvasBounds.width - totalWidth) / 2) - 2;
-        int y = canvasBounds.y + canvasBounds.height - 2;
+        int x = canvasBounds.x + ((canvasBounds.width - totalWidth) / 2) - COORDINATE_OFFSET_X;
+        int y = canvasBounds.y + canvasBounds.height - COORDINATE_OFFSET_Y;
 
         drawShadowed(graphics, firstElementSymbol, x, y, rune.getFirstElement().getColor());
         x += fontMetrics.stringWidth(firstElementSymbol + GAP);
